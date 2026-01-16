@@ -1,9 +1,0 @@
-{
-  "domain": "lol-ha",
-  "name": "LoL-HA",
-  "version": "1.0.0",
-  "documentation": "https://github.com/TomTorjaeger/LoL-HA",
-  "requirements": [],
-  "dependencies": [],
-  "codeowners": ["@TomTorjaeger"]
-}

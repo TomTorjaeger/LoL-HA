@@ -52,6 +52,7 @@ class LeagueSensor(SensorEntity):
         self._game_name = game_name
         self._tag_line = tag_line
         self._puuid = None
+        self._dd_version = "14.1.1" # Standard, wird geupdated
         self._summoner_id = None
         self._attr_name = f"LoL {game_name}"
         self._attr_unique_id = f"lol_{game_name}_{tag_line}".lower()
@@ -81,6 +82,15 @@ class LeagueSensor(SensorEntity):
             
             # 1. Get PUUID (Account-V1) - Nur einmalig nötig
             if not self._puuid:
+                # Hole aktuelle Version für Icons (Data Dragon)
+                try:
+                    async with self._session.get("https://ddragon.leagueoflegends.com/api/versions.json") as resp_ver:
+                        if resp_ver.status == 200:
+                            versions = await resp_ver.json()
+                            self._dd_version = versions[0]
+                except Exception:
+                    self._dd_version = "14.1.1" # Fallback
+
                 url_account = f"https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{self._game_name}/{self._tag_line}"
                 async with async_timeout.timeout(10):
                     async with self._session.get(url_account, headers=headers) as resp:
@@ -138,7 +148,7 @@ class LeagueSensor(SensorEntity):
                 self._state = "Unranked"
 
             # Icon setzen (Optional: Man könnte hier dynamisch Bilder laden)
-            self._attr_entity_picture = f"https://ddragon.leagueoflegends.com/cdn/14.1.1/img/profileicon/{profile_icon_id}.png"
+            self._attr_entity_picture = f"https://ddragon.leagueoflegends.com/cdn/{self._dd_version}/img/profileicon/{profile_icon_id}.png"
             
             self._available = True
 

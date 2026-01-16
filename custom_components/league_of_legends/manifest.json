@@ -1,0 +1,10 @@
+{
+  "domain": "league_of_legends",
+  "name": "League of Legends",
+  "version": "1.0.1",
+  "documentation": "https://github.com/TomTorjaeger/LoL-HA",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": ["@TomTorjaeger"],
+  "iot_class": "cloud_polling"
+}
